@@ -11,7 +11,7 @@ import (
 func Generate() *cli.App {
 	app := cli.NewApp()
 	app.Name = "CLI App"
-	app.Usage = "Returns IP and Server Name from URL"
+	app.Usage = "Returns IP and nameserver from domain name"
 
 	flags := []cli.Flag{
 		cli.StringFlag{
@@ -23,13 +23,13 @@ func Generate() *cli.App {
 	app.Commands = []cli.Command{
 		{
 			Name:   "ip",
-			Usage:  "Gets IP from URL",
+			Usage:  "Get IP from domain name",
 			Flags:  flags,
 			Action: getIPs,
 		},
 		{
 			Name:   "servers",
-			Usage:  "Gets servers from URL",
+			Usage:  "Get servers from domain name",
 			Flags:  flags,
 			Action: getServers,
 		},
@@ -50,9 +50,8 @@ func getIPs(c *cli.Context) {
 
 }
 
-
 func getServers(c *cli.Context) {
-	host:= c.String("host")
+	host := c.String("host")
 	servers, err := net.LookupNS(host)
 	if err != nil {
 		log.Fatal(err)
